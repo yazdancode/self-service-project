@@ -1,0 +1,334 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+{% block title %}تراکنش‌ها{% endblock %}
+
+{% block extra_css %}
+<style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Vazir, Tahoma, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding-bottom: 60px;
+    }
+
+    header {
+      background: linear-gradient(90deg, #3498db, #2980b9);
+      color: #fff;
+      padding: 18px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      position: relative;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    .balance-box {
+      background: linear-gradient(135deg, #fff, #ffd700);
+      margin: 15px auto;
+      width: 90%;
+      border-radius: 14px;
+      padding: 15px;
+      text-align: center;
+      font-weight: bold;
+      box-shadow: 0 4px 12px rgba(0,0,0,.15);
+      font-size: 18px;
+      color: #2980b9;
+    }
+
+    .search-box {
+      background: white;
+      margin: 15px auto;
+      width: 90%;
+      border-radius: 12px;
+      padding: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,.15);
+    }
+
+    #searchInput {
+      width: 100%;
+      padding: 10px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 16px;
+      font-family: Vazir, Tahoma;
+      direction: rtl;
+      transition: border-color 0.3s;
+    }
+
+    #searchInput:focus {
+      outline: none;
+      border-color: #3498db;
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    }
+
+    #transactionTable {
+      width: 95%;
+      margin: 0 auto;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 14px;
+      direction: rtl;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      background: white;
+    }
+
+    #transactionTable thead {
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      color: #fff;
+      font-weight: bold;
+    }
+
+    #transactionTable th,
+    #transactionTable td {
+      padding: 12px 10px;
+      text-align: center;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+
+    #transactionTable th {
+      font-size: 14px;
+    }
+
+    #transactionTable tbody tr:nth-child(even) {
+      background: #f8f9fa;
+    }
+
+    #transactionTable tbody tr:hover {
+      background: #e3f2fd;
+      transform: scale(1.01);
+      transition: all 0.2s;
+    }
+
+    .transaction-type {
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 12px;
+    }
+
+    .type-charge,
+    .type-refund {
+      background: linear-gradient(135deg, #27ae60, #2ecc71);
+      color: white;
+    }
+
+    .type-reserve,
+    .type-transfer {
+      background: linear-gradient(135deg, #e74c3c, #c0392b);
+      color: white;
+    }
+
+    .type-cancel {
+      background: linear-gradient(135deg, #9b59b6, #8e44ad);
+      color: white;
+    }
+
+    .amount-positive {
+      color: #27ae60;
+      font-weight: bold;
+    }
+
+    .amount-negative {
+      color: #e74c3c;
+      font-weight: bold;
+    }
+
+    .balance-current {
+      color: #2980b9;
+      font-weight: bold;
+    }
+
+    .description {
+      text-align: right;
+      color: #555;
+      font-size: 13px;
+    }
+
+    .date-time {
+      font-size: 12px;
+      color: #7f8c8d;
+    }
+
+    .pagination-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      margin: 20px auto;
+      width: 90%;
+    }
+
+    .page-btn {
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      border: none;
+      padding: 10px 20px;
+      color: #fff;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: Vazir, sans-serif;
+      font-weight: bold;
+      font-size: 14px;
+      transition: all 0.3s;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    }
+
+    .page-btn:hover {
+      background: linear-gradient(135deg, #2980b9, #2472a4);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .page-btn:disabled {
+      background: #bdc3c7;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    #pageInfo {
+      font-weight: bold;
+      color: #2c3e50;
+      padding: 0 10px;
+      font-size: 14px;
+    }
+
+    .no-transactions {
+      text-align: center;
+      padding: 40px;
+      color: #7f8c8d;
+      font-size: 18px;
+      background: #f8f9fa;
+      border-radius: 15px;
+      margin: 20px auto;
+      width: 90%;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+
+    .back-btn {
+      display: block;
+      width: 90%;
+      max-width: 500px;
+      margin: 20px auto;
+      padding: 12px;
+      background: linear-gradient(135deg, #7f8c8d, #95a5a6);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 5px 15px rgba(127, 140, 141, 0.4);
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .back-btn:hover {
+      background: linear-gradient(135deg, #95a5a6, #bdc3c7);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(127, 140, 141, 0.6);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<header>
+  💰 تراکنش‌ها
+</header>
+
+<div class="balance-box">
+  موجودی فعلی:
+  <span class="balance-current">{{ current_balance|intcomma }}</span> تومان
+</div>
+
+<div class="search-box">
+  <input type="text" id="searchInput" placeholder="🔍 جستجو در تراکنش‌ها (نوع، مبلغ، شرح)" value="{{ search_query }}">
+</div>
+
+<div style="overflow-x:auto; margin-top:10px;">
+  {% if transactions %}
+    <table id="transactionTable">
+      <thead>
+        <tr>
+          <th>ردیف</th>
+          <th>نوع تراکنش</th>
+          <th>مقدار</th>
+          <th>مانده</th>
+          <th>تاریخ</th>
+          <th>شرح</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for transaction in transactions %}
+          <tr>
+            <td>{{ forloop.counter0|add:transactions.start_index }}</td>
+            <td>
+              <span class="transaction-type type-{{ transaction.transaction_type }}">
+                {{ transaction.get_transaction_type_display }}
+              </span>
+            </td>
+            <td class="{% if transaction.transaction_type == 'charge' or transaction.transaction_type == 'refund' %}amount-positive{% else %}amount-negative{% endif %}">
+              {% if transaction.transaction_type == 'charge' or transaction.transaction_type == 'refund' %}
+                +{{ transaction.amount|intcomma }}
+              {% else %}
+                -{{ transaction.amount|intcomma }}
+              {% endif %}
+            </td>
+            <td class="balance-current">{{ transaction.balance_after|intcomma }}</td>
+            <td class="date-time">{{ transaction.created_at|date:"Y/m/d H:i" }}</td>
+            <td class="description">{{ transaction.description|default:"-" }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <div class="no-transactions">
+      تراکنشی یافت نشد
+    </div>
+  {% endif %}
+</div>
+
+{% if paginator.num_pages > 1 %}
+<div class="pagination-container">
+  <button id="prevBtn" class="page-btn" {% if not page_obj.has_previous %}disabled{% endif %}>◀ قبلی</button>
+  <span id="pageInfo">صفحه {{ page_obj.number }} از {{ paginator.num_pages }}</span>
+  <button id="nextBtn" class="page-btn" {% if not page_obj.has_next %}disabled{% endif %}>بعدی ▶</button>
+</div>
+{% endif %}
+
+<a href="{% url 'menu:menu' %}" class="back-btn">🏠 بازگشت به داشبورد</a>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// جستجو با تایپ
+document.getElementById('searchInput').addEventListener('input', function(e) {
+    const query = e.target.value;
+    const url = new URL(window.location.href);
+    url.searchParams.set('q', query);
+    url.searchParams.set('page', '1');
+    window.location.href = url.toString();
+});
+
+// صفحه‌بندی
+document.getElementById('prevBtn').addEventListener('click', function() {
+    const url = new URL(window.location.href);
+    const currentPage = parseInt(new URLSearchParams(window.location.search).get('page') || '1');
+    url.searchParams.set('page', currentPage - 1);
+    window.location.href = url.toString();
+});
+
+document.getElementById('nextBtn').addEventListener('click', function() {
+    const url = new URL(window.location.href);
+    const currentPage = parseInt(new URLSearchParams(window.location.search).get('page') || '1');
+    url.searchParams.set('page', currentPage + 1);
+    window.location.href = url.toString();
+});
+</script>
+{% endblock %}

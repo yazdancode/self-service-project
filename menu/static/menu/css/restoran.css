@@ -1,0 +1,110 @@
+body {
+  background: #FFF8F0;
+  font-family: Vazirmatn, Tahoma, sans-serif;
+}
+
+h1, .date-display {
+  text-align: right;
+  color: #8B3E2F;
+}
+
+.food-card {
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+  background: linear-gradient(120deg, #FFE6CC, #FFD8A8);
+}
+
+.food-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.18);
+  background: linear-gradient(120deg, #FFD8A8, #FFC68C);
+}
+
+.food-img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-radius: 0 16px 16px 0;
+  transition: transform 0.3s;
+}
+
+.food-card:hover .food-img {
+  transform: scale(1.05);
+}
+
+.food-info {
+  padding: 1rem;
+}
+
+.food-price {
+  color: #FF9800; /* نارنجی */
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.btn-reserve {
+  background-color: #FF9800 !important; /* نارنجی */
+  border: none !important;
+  color: white !important;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.btn-reserve:hover {
+  background-color: #FB8C00 !important; /* نارنجی تیره‌تر */
+  transform: scale(1.05);
+}
+
+.btn-selected {
+  background-color: #E65100 !important; /* نارنجی تیره */
+  color: white !important;
+}
+
+.summary {
+  margin-bottom: 2rem;
+  font-weight: bold;
+  text-align: right;
+  color: #6E2C00;
+}
+
+.date-display {
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.wallet-info-btn {
+  margin-bottom: 1rem;
+}
+
+.back-btn {
+  margin-top: 30px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 12px;
+  background-color: #FF9800; /* نارنجی */
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  max-width: 300px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  transition: 0.2s;
+}
+
+.back-btn:hover {
+  background-color: #FB8C00; /* نارنجی تیره‌تر */
+}
+
+@media (max-width:768px){
+  .food-card .row {
+    flex-direction: column;
+  }
+  .food-img {
+    border-radius:16px 16px 0 0;
+    height:200px;
+  }
+}

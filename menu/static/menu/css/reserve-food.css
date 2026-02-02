@@ -1,0 +1,228 @@
+/* ===== تنظیمات کلی ===== */
+body {
+  margin: 0;
+  font-family: Vazir, Tahoma;
+  background: #f4f4f4;
+  padding-bottom: 80px; /* فضا برای pagination پایین */
+}
+
+/* ===== هدر ===== */
+header {
+  background: linear-gradient(90deg, #d5b009, #503f03);
+  color: #fff;
+  padding: 15px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* ===== باکس جمع کل (خطی) ===== */
+.total-box {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  background: linear-gradient(90deg, #fffbe6, #ffffff);
+  border: 2px solid #d5b009;
+  border-radius: 12px;
+
+  margin: 10px 15px;
+  padding: 10px 16px;
+
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+.total-label {
+  color: #503f03;
+}
+
+.total-price {
+  color: #c0392b;
+  font-size: 18px;
+}
+
+.total-currency {
+  color: #555;
+}
+
+/* ===== عنوان روز ===== */
+.day-title {
+  text-align: center;
+  margin: 25px 0 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.day-title .date {
+  font-size: 13px;
+  color: #666;
+  margin-top: 4px;
+}
+
+/* ===== جدول غذا ===== */
+.meal-table {
+  background: #fff;
+  border-radius: 8px;
+  margin: 15px 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  overflow: hidden;
+}
+
+.meal-header {
+  background: linear-gradient(to left, #e07605e6, #caa50e);
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+thead {
+  background: #eee;
+}
+
+select {
+  padding: 6px;
+  border-radius: 6px;
+  font-family: Vazir;
+}
+
+/* ===== دکمه‌ها ===== */
+.reserve-btn {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: Vazir;
+}
+
+.reserve {
+  background: #27ae60;
+  color: #fff;
+}
+
+.cancel {
+  background: #c0392b;
+  color: #fff;
+}
+
+.date {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #555;
+}
+
+/* ===== pagination پایین صفحه ===== */
+.bottom-pagination {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  padding: 10px 15px;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.15);
+  display: flex;
+  justify-content: space-between;
+  z-index: 1000;
+}
+
+.page-btn {
+  font-family: Vazir;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #d5b009;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.page-btn:hover {
+  background: #503f03;
+}
+.day-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(90deg, #fffbe6, #ffffff);
+  border: 2px solid #d5b009;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+
+  margin: 20px auto 10px auto;
+  padding: 12px 20px;
+  width: fit-content;
+  font-size: 18px;
+  font-weight: bold;
+  color: #503f03;
+}
+
+/* تاریخ روز داخل باکس */
+.day-title .date {
+  font-size: 13px;
+  color: #666;
+  margin-top: 6px;
+}
+header {
+    position: relative; /* برای قرارگیری باکس داخل آن */
+    background: linear-gradient(90deg,#d5b009,#503f03);
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* کیف پول روی نوار بالای صفحه، گوشه راست */
+.wallet-floating {
+    position: absolute;  /* نسبت به header */
+    top: 50%;            /* وسط عمودی هدر */
+    right: 20px;         /* فاصله از سمت راست */
+    transform: translateY(-50%); /* تراز عمودی دقیق */
+    background: linear-gradient(135deg, #fff8e6, #fff0c1);
+    border-radius: 15px;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    font-family: Vazir, Tahoma;
+    font-weight: bold;
+    color: #503f03;
+}
+
+.wallet-floating .wallet-img {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+}
+
+.wallet-floating .wallet-info {
+    font-size: 14px;
+}
+
+#walletBalanceReserve {
+    color: #c0392b;
+    font-size: 15px;
+    margin-left: 3px;
+}

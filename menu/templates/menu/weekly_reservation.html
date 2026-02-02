@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+{% load menu_filters %}
+{% load static %}
+{% load humanize %}
+{% block title %}رزرو غذا{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'menu/css/reserve-food.css' %}">
+{% endblock %}
+
+{% block content %}
+<header>
+  🍽️ رزرو غذا
+  <div class="wallet-floating">
+    <img src="{% static 'menu/img/3-wallet.webp' %}" class="wallet-img">
+    <div class="wallet-info">
+      موجودی:
+      <span id="walletBalanceReserve">{{ wallet_balance|intcomma }}</span> تومان
+    </div>
+  </div>
+</header>
+
+{% if messages %}
+  {% for message in messages %}
+    <div class="messages {{ message.tags }}">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
+<div class="total-box">
+  🧾 جمع کل:
+  <span id="total">{{ total_reserved|intcomma }}</span> تومان
+</div>
+
+<div id="tables-container">
+  {% if menus_by_date %}
+    {% for date_info in menus_by_date %}
+      <div class="day-title">
+        {% if date_info.date == today %}
+          📅 امروز | {{ date_info.date|date:"l d F" }}
+        {% else %}
+          📅 {{ date_info.date|date:"l d F" }}
+        {% endif %}
+      </div>
+
+      {% if date_info.menus %}
+        {% for menu in date_info.menus %}
+          <div class="meal-card {{ menu.meal_type }}">
+            <div class="meal-header">
+              {% if menu.meal_type == 'lunch' %}🍱 ناهار{% elif menu.meal_type == 'dinner' %}🌙 شام{% else %}🌅 صبحانه{% endif %}
+            </div>
+
+            <!-- نام غذا در بالا -->
+            <div class="food-name-box">
+              <span class="food-name">
+                {% for item in menu.menufooditem_set.all %}
+                  {{ item.food_item.name }}{% if not forloop.last %} + {% endif %}
+                {% empty %}
+                  غذایی تعریف نشده
+                {% endfor %}
+              </span>
+            </div>
+
+            <!-- قیمت و ظرفیت -->
+            <div class="details-row">
+              <div class="details-col">
+                <div class="detail-title">💰 قیمت</div>
+                <div class="detail-value price-value">{{ menu.price|intcomma }} تومان</div>
+              </div>
+              <div class="details-col">
+                <div class="detail-title">👥 ظرفیت</div>
+                <div class="detail-value {% if menu.reserved_count >= menu.capacity %}capacity-full{% else %}capacity-value{% endif %}">
+                  {{ menu.reserved_count }} / {{ menu.capacity }}
+                </div>
+              </div>
+            </div>
+
+            <!-- مواد تشکیل‌دهنده -->
+            <div class="food-items">
+              {% for item in menu.menufooditem_set.all %}
+                <span class="food-item">
+                  <span class="food-item-name">• {{ item.food_item.name }}</span>
+                  <span class="food-item-quantity">{{ item.quantity }}</span>
+                </span>
+              {% empty %}
+                <span class="food-item">غذایی تعریف نشده</span>
+              {% endfor %}
+            </div>
+
+            <!-- دکمه رزرو/لغو -->
+            {% if menu.id in reservations_dict %}
+              <form method="post" style="margin:0;">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="cancel">
+                <input type="hidden" name="reservation_id" value="{{ reservations_dict|get_item:menu.id }}">
+                <button type="submit" class="reserve-btn cancel" onclick="return confirm('آیا مطمئنید می‌خواهید این رزرو را لغو کنید؟')">
+                  لغو رزرو 🗑️
+                </button>
+              </form>
+            {% elif menu.reserved_count < menu.capacity %}
+              <form method="post" style="margin:0;">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="reserve">
+                <input type="hidden" name="menu_id" value="{{ menu.id }}">
+                <button type="submit" class="reserve-btn reserve">
+                  رزرو غذا 📝
+                </button>
+              </form>
+            {% else %}
+              <button class="reserve-btn disabled" disabled>
+                ظرفیت تکمیل شد ❌
+              </button>
+            {% endif %}
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="meal-card">
+          <div class="no-menu">منویی برای این روز تعریف نشده است</div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  {% else %}
+    <div class="no-menu" style="margin: 30px;">
+      منویی برای این هفته موجود نیست
+    </div>
+  {% endif %}
+</div>
+
+<nav class="bottom-pagination">
+  <button id="prevWeek" class="page-btn">◂ هفته قبل</button>
+  <button id="goDashboard" class="page-btn dashboard-btn">
+    🏠 بازگشت به داشبورد
+  </button>
+  <button id="nextWeek" class="page-btn">هفته بعد ▸</button>
+</nav>
+
+<input type="hidden" id="currentWeekOffset" value="{{ week_offset|default:"0" }}">
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const CSRF_TOKEN = '{{ csrf_token }}';
+let weekOffset = parseInt(document.getElementById('currentWeekOffset').value) || 0;
+
+function changeWeek(offset) {
+    weekOffset += offset;
+    window.location.href = `?week_offset=${weekOffset}`;
+}
+
+document.getElementById('prevWeek').onclick = () => changeWeek(-1);
+document.getElementById('nextWeek').onclick = () => changeWeek(1);
+document.getElementById('goDashboard').onclick = () => {
+    window.location.href = '{% url "menu:menu" %}';
+};
+</script>
+{% endblock %}

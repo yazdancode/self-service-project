@@ -1,0 +1,273 @@
+@import url('https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@30.1.0/dist/font-face.css');
+
+/* ===================
+   بدنه و نوار بالا
+=================== */
+body {
+  margin: 0;
+  font-family: 'Vazir', 'Segoe UI', Tahoma, sans-serif;
+  background: #e9e4db;
+}
+
+.topbar {
+  width: 100%;
+  height: 60px;
+  background: linear-gradient(90deg, #c28c46, #c6a471);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+}
+
+/* ===================
+   کانتینر اصلی
+=================== */
+.container {
+  display: flex;
+  height: calc(100vh - 60px);
+  padding-top: 65px;
+}
+
+/* ===================
+   ستون سمت راست
+=================== */
+.sidebar {
+  width: 250px;
+  background: rgba(212, 175, 136, 0.86);
+  color: #070707;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  border-top-right-radius: 0;
+  box-shadow: 20px 20px 15px rgba(172, 14, 14, 0.2);
+}
+
+.sidebar-title {
+  font-weight: bold;
+  margin-bottom: 25px;
+  font-size: 20px;
+  text-align: center;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  padding: 12px;
+  margin: 8px 0;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: 0.3s;
+  position: relative;
+  background: rgba(53, 2, 14, 0.05);
+}
+
+.sidebar li:hover {
+  background: rgba(25, 2, 10, 0.2);
+  transform: translateX(-5px);
+}
+
+/* زیرمنو */
+.submenu {
+  display: none;
+  list-style: none;
+  padding: 0;
+  margin-top: 5px;
+}
+
+.submenu li {
+  padding: 8px 15px;
+  background: rgba(145, 96, 115, 0.1);
+  border-radius: 6px;
+  margin-top: 4px;
+  transition: 0.3s;
+}
+
+.sidebar li.open > .submenu {
+  display: block;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(-10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ===================
+   محتوا
+=================== */
+.content {
+  flex: 1;
+  padding: 100px 40px 40px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 25px;
+}
+
+/* ===================
+   کارت‌ها
+=================== */
+.cards {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  width: 250px;
+  height: 300px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(120, 78, 9, 0.2);
+  transition: 0.3s;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.card i {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.card span {
+  font-weight: bold;
+  text-align: center;
+  padding: 0 10px;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+
+.blue { background: linear-gradient(135deg, #b95a06, #d79b85); }
+.green { background: linear-gradient(135deg, #a42112, #cc6e6f); }
+.red   { background: linear-gradient(135deg, #c4930e, #7b0d0d); }
+
+/* ===================
+   جدول تراکنش‌ها
+=================== */
+#mainContent table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 18px;
+  direction: rtl;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  margin-top: 10px;
+  background: #FFF8E1;
+}
+
+#mainContent thead {
+  background: linear-gradient(135deg, #b9a382, #d6cec2);
+  color: #4E342E;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+#mainContent th,
+#mainContent td {
+  padding: 16px 14px;
+  text-align: center;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  transition: background 0.3s, transform 0.2s;
+}
+
+#mainContent td.description {
+  text-align: left;
+  color: #6D4C41;
+  font-weight: 500;
+}
+
+#mainContent tbody tr:nth-child(even) {
+  background: #FFF3E0;
+}
+
+#mainContent tbody tr:hover {
+  background: #e9c998;
+  transform: scale(1.01);
+}
+
+/* ===================
+   جستجو و صفحه‌بندی
+=================== */
+.search-box input {
+  width: 300px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  outline: none;
+  transition: 0.3s;
+  font-family: 'Vazir', sans-serif;
+}
+
+.search-box input:focus {
+  border-color: #FFA726;
+  box-shadow: 0 2px 6px rgba(255,167,38,0.4);
+}
+
+.page-btn {
+  padding: 10px 18px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(135deg, #FFA726, #FF8F00);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  font-family: 'Vazir', sans-serif;
+}
+
+.page-btn:hover {
+  background: linear-gradient(135deg, #FF9800, #FB8C00);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+}
+
+.page-btn:disabled {
+  background: #ddd;
+  color: #999;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+#pageInfo {
+  font-weight: bold;
+  color: #4E342E;
+  padding: 0 10px;
+  font-family: 'Vazir', sans-serif;
+}
+
+.card-link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}

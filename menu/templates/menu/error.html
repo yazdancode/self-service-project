@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>خطا - {{ error_code|default:"500" }}</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            text-align: center;
+            padding: 50px;
+            line-height: 1.6;
+        }
+        .error-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .error-code {
+            font-size: 72px;
+            color: #dc3545;
+            margin-bottom: 20px;
+        }
+        .error-message {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #495057;
+        }
+        .back-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-code">
+            {% if error_code %}
+                {{ error_code }}
+            {% else %}
+                500
+            {% endif %}
+        </div>
+
+        <h1 class="error-message">
+            {% if error_message %}
+                {{ error_message }}
+            {% else %}
+                متأسفیم! خطایی رخ داده است.
+            {% endif %}
+        </h1>
+
+        <p>
+            {% if error_details %}
+                {{ error_details }}
+            {% else %}
+                لطفاً بعداً دوباره امتحان کنید یا با پشتیبانی تماس بگیرید.
+            {% endif %}
+        </p>
+        <a href="{% url 'menu:menu' %}" class="back-button">بازگشت به صفحه اصلی</a>
+        {% if request.user.is_staff and debug %}
+            <div style="margin-top: 30px; padding: 15px; background: #f8f8f8; border-radius: 5px; text-align: left; direction: ltr;">
+                <h3>Debug Information (Staff Only):</h3>
+                <pre>{{ debug }}</pre>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+{% block title %}رزروهای هفتگی{% endblock %}
+
+{% block extra_css %}
+
+<style>
+/* ===== CSS بدون تغییر ===== */
+body { font-family: Vazir, sans-serif; background-color: #fff8f0; margin: 0; padding: 0; }
+.header { background-color: #d35400; color: white; padding: 18px; font-size: 24px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+.container { padding: 20px; max-width: 1200px; margin: auto; }
+.week-header { display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
+.week-btn { background-color: #e67e22; color: white; border: none; padding: 8px 15px; cursor: pointer; border-radius: 8px; font-size: 16px; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.2);}
+.week-btn:hover:not(:disabled) { background-color: #d35400; }
+.week-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.week-badge { background-color: #c8210f; color: white; padding: 4px 10px; border-radius: 6px; margin-left: 5px; font-size: 14px; }
+.total-box { text-align: center; margin-bottom: 15px; font-size: 18px; color:#6e2c00; font-weight: bold; }
+table { width: 100%; border-collapse: collapse; border-radius: 12px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+thead { background-color: #f5b041; color:white; font-weight:bold; }
+th, td { padding: 14px 12px; text-align: center; font-size:16px; }
+tr:hover { background-color: #fdebd0; }
+.status { color: #145a32; font-weight: bold; display: flex; justify-content: center; align-items: center; gap:5px; }
+.breakfast { background-color: #f9e79f; }
+.lunch { background-color: #fad7a0; }
+.dinner { background-color: #f5cba7; }
+.back-btn-container { text-align: center; margin-top: 20px; }
+.back-btn { padding: 10px 20px; font-size: 16px; font-weight: bold; color: #fff; background: #d35400; border: none; border-radius: 8px; cursor: pointer; }
+</style>
+
+{% endblock %}
+
+{% block content %}
+<div class="header">
+  <i class="fa fa-clipboard-list"></i> رزروهای هفته‌ای
+</div>
+
+<div class="container">
+  <div class="week-header">
+    <button class="week-btn" onclick="changeWeek({{ week_offset|add:-7 }})">⟵ هفته قبلی</button>
+    <h3>
+      <span id="weekText">از {{ start_date }} تا {{ end_date }}</span>
+      {% if is_current_week %}
+        <span class="week-badge">این هفته</span>
+      {% endif %}
+    </h3>
+    <button class="week-btn" onclick="changeWeek({{ week_offset|add:7 }})">هفته بعدی ⟶</button>
+  </div>
+
+  <div class="total-box">
+    🍁 جمع کل هفته: <span id="weekTotal">{{ total_amount|intcomma }}</span> تومان
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>روز</th>
+        <th>وعده</th>
+        <th>نام غذا</th>
+        <th>قیمت (تومان)</th>
+        <th>وضعیت</th>
+      </tr>
+    </thead>
+    <tbody id="reservationTableBody">
+      {% if reservations %}
+        {% for reservation in reservations %}
+          <tr class="{{ reservation.menu.meal_type }}">
+            <td>{{ reservation.meal_date|date:"l d F" }}</td>
+            <td>
+              {% if reservation.menu.meal_type == 'breakfast' %}🥐 صبحانه
+              {% elif reservation.menu.meal_type == 'lunch' %}🍽 ناهار
+              {% elif reservation.menu.meal_type == 'dinner' %}🍛 شام
+              {% endif %}
+            </td>
+            <td>
+              {% for item in reservation.menu.menufooditem_set.all %}
+                {{ item.food_item.name }}{% if not forloop.last %}, {% endif %}
+              {% empty %}
+                ---
+              {% endfor %}
+            </td>
+            <td>{{ reservation.menu.price|intcomma }}</td>
+            <td class="status">
+              <i class="fa fa-leaf"></i>
+              {% if reservation.status == 'confirmed' %}تأیید شده
+              {% else %}رزرو شده
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      {% else %}
+        <tr>
+          <td colspan="5" class="no-reservations">هیچ غذایی رزرو نشده</td>
+        </tr>
+      {% endif %}
+    </tbody>
+  </table>
+
+  <div class="back-btn-container">
+    <button class="back-btn" onclick="window.location.href='{% url 'menu:menu' %}'">
+      بازگشت به داشبورد
+    </button>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function changeWeek(offset) {
+    window.location.href = `?week_offset=${offset}`;
+}
+</script>
+{% endblock %}

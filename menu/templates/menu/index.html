@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}داشبورد سلف{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'menu/css/dashboard.css' %}">
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@30.1.0/dist/font-face.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<header class="topbar">
+  🍂 اتوماسیون تغذیه🍂
+  <div style="position:absolute; left:20px; top:10px; display:flex; align-items:center; gap:8px;">
+    <i class="fa fa-user-circle" style="font-size:30px;"></i>
+    <span id="userName">{{ user.student_id }}</span>
+  </div>
+</header>
+
+<div class="container">
+  <aside class="sidebar">
+    <div class="sidebar-title">داشبورد</div>
+    <ul>
+      <li class="dropdown">رزرو غذا🍽️
+        <ul class="submenu">
+          <li onclick="location.href='{% url 'menu:weekly_reservation' %}'">رزرو غذای هفته</li>
+        </ul>
+      </li>
+
+      <li class="dropdown">امور مالی💰
+        <ul class="submenu">
+          <li onclick="location.href='{% url 'menu:wallet_charge' %}'">شارژ کیف پول</li>
+          <li onclick="location.href='{% url 'menu:transactions' %}'">تراکنش‌ها</li>
+        </ul>
+      </li>
+
+      <li onclick="location.href='{% url 'menu:reports' %}'">گزارشات📋</li>
+
+      <li>
+        <a href="{% url 'accounts:logout' %}" style="text-decoration: none; color: black;">
+          خروج 🚪
+        </a>
+      </li>
+    </ul>
+  </aside>
+
+  <main class="content" id="mainContent">
+    <div class="cards" id="defaultCards">
+      <!-- کارت روز فروش -->
+      <div class="card blue">
+        <a href="{% url 'menu:sale_day' %}" class="card-link">
+          <i class="fa fa-calendar-day"></i>
+          <span>روز فروش</span>
+        </a>
+      </div>
+
+      <!-- کارت رستوران آزاد -->
+      <div class="card green">
+        <a href="{% url 'menu:free_restaurant' %}" class="card-link">
+          <i class="fa fa-store"></i>
+          <span>رستوران آزاد</span>
+        </a>
+      </div>
+
+      <!-- کارت غذاهای رزرو شده -->
+<div class="card red" onclick="window.location.href='{% url 'menu:weekly_reservations' %}'">
+  <i class="fa fa-clipboard-list"></i>
+  <span>غذاهای رزرو شده در طول هفته</span>
+</div>
+    </div>
+  </main>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'menu/js/dashboard.js' %}"></script>
+{% endblock %}

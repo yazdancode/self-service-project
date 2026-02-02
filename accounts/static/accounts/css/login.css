@@ -1,0 +1,100 @@
+* {
+    box-sizing: border-box;
+    font-family: "Vazirmatn", sans-serif;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    background: url("https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3")
+        no-repeat center center / cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-box {
+    width: 340px;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(8px);
+    padding: 25px;
+    border-radius: 10px;
+    color: #fff;
+}
+
+.social {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.social i {
+    background: #f1c40f;
+    color: #000;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 0 4px;
+    cursor: pointer;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: normal;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px 40px 10px 10px;
+    border: none;
+    border-radius: 4px;
+    outline: none;
+}
+
+.input-group i {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #f1c40f;
+}
+
+.remember {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.remember input {
+    margin-left: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background: #f1c40f;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background: #e0b90d;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 13px;
+}
+
+.footer a {
+    color: #4aa3ff;
+    text-decoration: none;
+}

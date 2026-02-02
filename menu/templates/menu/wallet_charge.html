@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load humanize static %}
+{% load static %}
+{% block title %}شارژ کیف پول{% endblock %}
+
+{% block extra_css %}
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@30.1.0/dist/font-face.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'accounts/css/wallet.css' %}">
+{% endblock %}
+
+{% block content %}
+<header class="wallet-header">💰 شارژ کیف پول</header>
+
+<div class="wallet-container">
+  <div class="wallet-card">
+    <div class="wallet-icon-container">
+      <img src="{% static 'accounts/images/3-wallet.webp' %}" alt="کیف پول" class="wallet-icon">
+    </div>
+    <div class="wallet-info">
+      <div class="wallet-label">موجودی فعلی</div>
+      <div class="wallet-balance" id="walletBalance">{{ wallet.balance|intcomma }}</div>
+      <div class="wallet-currency">تومان</div>
+    </div>
+  </div>
+
+  <!-- فرم شارژ -->
+  <div class="wallet-charge-form">
+    <form id="chargeForm" method="post">
+      {% csrf_token %}
+      <label for="chargeAmount">مبلغ شارژ (تومان):</label>
+      <input type="number" id="chargeAmount" name="amount" placeholder="مثلاً 10000" min="1000" required>
+
+      <div class="suggested-amounts" id="suggestedAmounts">
+        <span data-amount="10000">۱۰,۰۰۰</span>
+        <span data-amount="20000">۲۰,۰۰۰</span>
+        <span data-amount="50000">۵۰,۰۰۰</span>
+        <span data-amount="100000">۱۰۰,۰۰۰</span>
+      </div>
+
+      <button type="submit" id="chargeBtn">شارژ کیف پول 💰</button>
+    </form>
+  </div>
+</div>
+
+<!-- صدا هنگام شارژ -->
+<audio id="walletSound" src="{% static 'accounts/sounds/Mario Bros Coin - QuickSounds.com.mp3' %}" preload="auto"></audio>
+
+<!-- دکمه بازگشت به داشبورد -->
+<a href="{% url 'menu:menu' %}" class="back-btn">
+    🏠 بازگشت به داشبورد
+</a>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'accounts/js/wallet.js' %}"></script>
+{% endblock %}
